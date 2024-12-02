@@ -13,17 +13,12 @@ object InputReader {
         return File(filename).readText().trim()
     }
 
-    fun readAsPairList(day: Int): Pair<IntArray, IntArray> {
-
-        val leftList = mutableListOf<Int>()
-        val rightList = mutableListOf<Int>()
-
+    fun readIntegerListsFromFile(day: Int): List<List<Int>> {
+        val integerLists = mutableListOf<List<Int>>()
         read(day)?.forEach { line ->
-            val (left, right) = line.split("\\s+".toRegex()).map { it.toInt() }
-            leftList.add(left)
-            rightList.add(right)
+            val integers = line.split("\\s+".toRegex()).map { it.toInt() }
+            integerLists.add(integers)
         }
-
-        return leftList.toIntArray() to rightList.toIntArray()
+        return integerLists
     }
 }

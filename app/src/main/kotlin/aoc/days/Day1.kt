@@ -14,8 +14,8 @@ class Day1 : Solver {
      * 3) Calculer les distances pour chaque paire correspondante
      * 4) Additionner toutes les distances
      */
-    override fun part1(input: Pair<IntArray, IntArray>): Any {
-        return calculateDistance(input.first, input.second)
+    override fun part1(input: List<List<Int>>): Any {
+        return calculateDistance(input)
     }
 
     /**
@@ -24,19 +24,22 @@ class Day1 : Solver {
      * 2) Calculer les scores individuel pour chaque élément de la liste de gauche multiplier sa valeur par sa fréquence dans la liste droite
      * 3) Additionner les scores
      */
-    override fun part2(input: Pair<IntArray, IntArray>): Any {
-        return calculateSimilarityScoreOptimized(input.first, input.second)
+    override fun part2(input: List<List<Int>>): Any {
+        return calculateSimilarityScore(input)
     }
 }
 
 fun main() {
     val day = Day1()
-    val input = InputReader.readAsPairList(1)
+    val input = InputReader.readIntegerListsFromFile(1)
     println("Part 1: ${input.let { day.part1(it) }}")
     println("Part 2: ${input.let { day.part2(it) }}")
 }
 
-private fun calculateDistance(leftArray: IntArray, rightArray: IntArray): Long {
+private fun calculateDistance(input: List<List<Int>>): Long {
+    val leftArray = input.map { it[0] }.toIntArray()
+    val rightArray = input.map { it[1] }.toIntArray()
+
     leftArray.sort()
     rightArray.sort()
 
@@ -48,18 +51,18 @@ private fun calculateDistance(leftArray: IntArray, rightArray: IntArray): Long {
     return totalDistance
 }
 
-fun calculateSimilarityScoreOptimized(left: IntArray, right: IntArray): Long {
-    // Construire une table de fréquences pour la liste droite
+fun calculateSimilarityScore(input: List<List<Int>>): Long {
+    val leftArray = input.map { it[0] }.toIntArray()
+    val rightArray = input.map { it[1] }.toIntArray()
+
     val frequencyMap = mutableMapOf<Int, Int>()
 
-    // Remplir la table de fréquences
-    right.forEach { value ->
+    rightArray.forEach { value ->
         frequencyMap[value] = frequencyMap.getOrDefault(value, 0) + 1
     }
 
-    // Calculer les scores pour la liste gauche
     var similarityScore = 0L
-    left.forEach { value ->
+    leftArray.forEach { value ->
         similarityScore += value.toLong() * (frequencyMap[value] ?: 0)
     }
 
