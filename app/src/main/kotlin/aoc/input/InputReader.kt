@@ -8,9 +8,8 @@ object InputReader {
         return Thread.currentThread().contextClassLoader.getResourceAsStream("day$day.txt")?.reader()?.readLines()
     }
 
-    fun readAsString(day: Int): String {
-        val filename = "src/main/resources/day%02d.txt".format(day)
-        return File(filename).readText().trim()
+    fun readAsString(day: Int): String? {
+        return Thread.currentThread().contextClassLoader.getResourceAsStream("day$day.txt")?.reader()?.readText()
     }
 
     fun readIntegerListsFromFile(day: Int): List<List<Int>> {
