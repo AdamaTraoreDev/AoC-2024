@@ -1,7 +1,5 @@
 package aoc.input
 
-import java.io.File
-
 object InputReader {
     fun read(day: Int): List<String>? {
         println("looking for the day$day.txt file")
@@ -19,5 +17,25 @@ object InputReader {
             integerLists.add(integers)
         }
         return integerLists
+    }
+
+    fun readPairFromFile(day: Int): Pair<Set<Pair<Int, Int>>, List<List<Int>>> {
+        val rules = mutableSetOf<Pair<Int, Int>>()
+        val updates = mutableListOf<List<Int>>()
+
+        Thread.currentThread().contextClassLoader.getResourceAsStream("day$day.txt")?.reader()?.readLines()
+            ?.forEach { line ->
+                when {
+                    line.isBlank() -> return@forEach
+                    '|' in line -> {
+                        val (x, y) = line.split("|").map { it.toInt() }
+                        rules.add(x to y)
+                    }
+
+                    else -> updates.add(line.split(",").map { it.toInt() })
+                }
+            }
+
+        return rules to updates
     }
 }
