@@ -2,7 +2,6 @@ package aoc.input
 
 object InputReader {
     fun read(day: Int): List<String>? {
-        println("looking for the day$day.txt file")
         return Thread.currentThread().contextClassLoader.getResourceAsStream("day$day.txt")?.reader()?.readLines()
     }
 
